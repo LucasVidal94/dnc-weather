@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dnc weather</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"/>
+  
+     
+  <!-- SCRIPT ENDEREÇO-->
+    <script>
+
+      async  function getAddressByCep(){
+      const cep= document.getElementById('cep').value;
+      try {
+        const response   = await  fetch(`https://viacep.com.br/ws/${cep}/json/`)
+        const data = await response.json();
+        console.log(data);
+        document.getElementById('rua').value = data.logradouro;
+        document.getElementById('bairro').value = data.bairro;
+        document.getElementById('cidade').value = data.localidade;
+      } catch (error) {
+        alert (error.message);
+        
+      }
+      
+       
+     
+  }
+
+
+
+  
+
+ 
+  
+    </script>
+
+
+
+
+
+
+
+
+    <!-- SCRIPT DA PREVISAO -->
+    <script>
+
+      async  function getPrevisao(){
+      const lat = document.getElementById('latitude').value;
+      const lon = document.getElementById('longitude').value;
+      try {
+        const response   = await  fetch
+        (`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m`); 
+        
+        const data = await response.json();
+        console.log(data);
+        document.getElementById('resposta').innerHTML='';
+        
+        for  (let index = 1;
+         index < data.hourly.temperature_2m.length;
+          index++) 
+          {
+          document.getElementById('resposta').innerHTML =`<div>${data.hourly.temperature_2m[index]}</div>`;
+        }
+      } catch (error) {
+        alert (error.message);
+      
+  }           
+  }
+    </script>
+    
+ 
+
+
+</head> 
+
+
+<body class="text-bg-light">
+
+
+
+  
+    <!--  HEADER  -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary ">
+      <div class="container-fluid text-bg-primary p-3 ms-2 ">
+        <a class="navbar-brand fw-bold p-2 ps-3 fs-2 text-light" href="#">DNC WEATHER</a>
+        <span><a class="navbar-brand fw-bold m-3 text-light" href="#">Endereço</a>
+        <a class="navbar-brand fw-bold m-3 text-light" href="#">Previsão do tempo</a>
+      </span>
+      </div>
+    </nav>
+  
+    <!-- APRESENTAÇÃO  -->
+
+ <div class="row mt-4 text-bg-light " >
+ <h1 class="col grid text-center m-3 fs-1 " >Descubra Mais com Precisão:<br>Previsões do Tempo e endereços<br>em tempo real.</h1>
+ <div class="col-3 mt-4">
+    <img src="logo.svg">
+  </div> 
+ 
+  <!-- FORMULARIO -->
+
+<div class="row  ">
+<div class="card w-75 grid text-center m-5 fs-6 mx-auto border-light border rounded-5 ">
+    
+    <form class="row g-3 mt-3  ">
+        <div class="col-12">
+          <label for="inputEmail4" class="form-label">Primeiro nome:</label>
+          <input type="email" class="form-control text-bg-light border-light" id="inputEmail4" placeholder="Digite seu primeiro nome">
+        </div>
+       
+        <div class="col-12">
+          <label for="inputAddress" class="form-label">E-mail:</label>
+          <input type="text" class="form-control text-bg-light border-light" id="inputAddress" placeholder="Digite seu e-mail">
+        </div>
+        <div class="col-12">
+          <label for="CEP"  class="col-sm-2 col-form-label">Digite o CEP:</label>
+          <input type="text" class="form-control text-bg-light border-light" id="cep" value="" placeholder="Insira o CEP desejado:">
+        </div>
+
+
+        <div class="row m-4">
+          <label for="latitude" class="form-label">  Digite a latitude e longitude para saber a previsão:</label>
+          <div class="col">
+            <input type="text"  class="form-control text-bg-light border-light" id="latitude" value="" placeholder="Latitude" >
+          </div>
+          
+          <div class="col">
+            <input type="text" class="form-control text-bg-light border-light" id="longitude" value="" placeholder="Longetitude" >
+          </div>
+        </div>
+  
+          
+        <div class="d-grid gap-2 col-6 mx-auto">
+          <button type="button" class="btn btn-primary m-5 " onclick=" getPrevisao(), getAddressByCep()">Acessar</button>
+         
+        </div>
+      </form>
+
+        
+    </div>
+
+
+</div>
+<!-- RESULTADO DO CEP-->
+   <div class="container mt-3 text-bg-light text-center ">
+   
+  <label class="col grid text-center m-3 fs-1">
+    <h1 class="fw-bold"> Resultado da busca pelo CEP:</h1>
+  
+  </label>
+  <img src="maps.svg">
+</div>
+
+
+<div class="container grid w-75 text-center  ">
+  <div class="row align-items-center text-bg-primary p-3 border rounded-3">
+    <div class="col ">
+      <label for="Rua" class="col-sm-2 col-form-label ">Logradouro/Nome</label>
+      <input type="text" readonly class="form-control" id="rua">
+    </div>
+    <div class="col ">
+      <label for="Bairro" class="col-sm-2 col-form-label">Bairro/Distrito</label>
+      <input type="text" readonly class="form-control" id="bairro">
+    </div>
+    <div class="col ">
+      <label for="Cidade" class="col-sm-2 col-form-label ">Localidade</label>
+      <input type="text" readonly class="form-control " id="cidade">
+    </div>
+  </div>
+</div>
+      <!-- RESULTADO PREVISÃO DO TEMPO-->
+
+      <div class="container mt-5 text-bg-light text-center ">
+   
+        <label class="col grid text-center m-3 ">
+          <h1 class="fw-bold"> Resultado da previsão do tempo:</h1>
+        
+        </label>
+        <img src="nuvem.svg">
+      </div>
+
+
+      <div class="d-grid gap-2 col-7 mx-auto border border-primary-subtle border-2 rounded-4 text-center mt-5 text-bg-light"  >
+        
+        <label class="form-label fw-bold m-3 ">Previsão do tempo de acordo com a região: 
+          <label  id="resposta"> </label>
+          <label>°C</label>
+
+   
+    </label>
+
+    </div>
+    
+    
+
+
+
+
+
+
+
+   </div>
+
+   <!-- Footer-->
+
+
+   
+  <footer class="navbar navbar-expand-lg bg-body-tertiary footer navbar-fixed-bottom mt-5 ">
+    <div class="container-fluid text-bg-primary p-3 ms-2 ">
+      <a class="navbar-brand fw-bold p-2 ps-3 fs-2 text-light" href="#"></a>
+      <span><a class="navbar-brand  m-3 text-light" href="#">Termo de uso  |  Politica de privacidade</a>
+
+    </span>
+    </div>
+  </footer>
+
+    
+
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+</body>
+</html>
+
+
+
+
+
+<!--
+
+
+  <div class="container">
+      <label for="Rua" class="col-sm-2 col-form-label">Rua</label>
+      <div class="col-sm-3">
+        <input type="text" readonly class="form-control" id="rua">
+      </div>
+    </div>
+    <div class="container">
+      <label for="Bairro" class="col-sm-2 col-form-label">Bairro</label>
+      <div class="col-sm-3">
+        <input type="text" readonly class="form-control" id="bairro">
+      </div>
+    </div>
+    <div class="container">
+      <label for="Cidade" class="col-sm-2 col-form-label">Cidade</label>
+      <div class="col-sm-3">
+        <input type="text" readonly class="form-control" id="cidade">
+      </div>
+      </div>
+    
+
+-->
