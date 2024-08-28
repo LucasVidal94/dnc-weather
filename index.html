@@ -20,7 +20,7 @@
         document.getElementById('bairro').value = data.bairro;
         document.getElementById('cidade').value = data.localidade;
       } catch (error) {
-        alert (error.message);
+        alert ("Insira um endereço correto");
         
       }
       
@@ -29,22 +29,6 @@
   }
 
 
-
-  
-
- 
-  
-    </script>
-
-
-
-
-
-
-
-
-    <!-- SCRIPT DA PREVISAO -->
-    <script>
 
       async  function getPrevisao(){
       const lat = document.getElementById('latitude').value;
@@ -64,7 +48,7 @@
           document.getElementById('resposta').innerHTML =`<div>${data.hourly.temperature_2m[index]}</div>`;
         }
       } catch (error) {
-        alert (error.message);
+        alert ("Insira dados corretos para saber a previsão");
       
   }           
   }
@@ -106,13 +90,13 @@
     
     <form class="row g-3 mt-3  ">
         <div class="col-12">
-          <label for="inputEmail4" class="form-label">Primeiro nome:</label>
-          <input type="email" class="form-control text-bg-light border-light" id="inputEmail4" placeholder="Digite seu primeiro nome">
+          <label for="Name" class="form-label">Primeiro nome:</label>
+          <input type="text" class="form-control text-bg-light border-light" id="Name" placeholder="Digite seu primeiro nome">
         </div>
        
         <div class="col-12">
-          <label for="inputAddress" class="form-label">E-mail:</label>
-          <input type="text" class="form-control text-bg-light border-light" id="inputAddress" placeholder="Digite seu e-mail">
+          <label for="Email" class="form-label">E-mail:</label>
+          <input type="email" class="form-control text-bg-light border-light" id="Email" placeholder="Digite seu e-mail">
         </div>
         <div class="col-12">
           <label for="CEP"  class="col-sm-2 col-form-label">Digite o CEP:</label>
